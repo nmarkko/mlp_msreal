@@ -6,7 +6,7 @@
 #include <sys/mman.h>
 #include <fcntl.h>
 
-#include "images.h"
+#include "image.h"
 
 #define MAX_PKT_SIZE (24644*4)
 
