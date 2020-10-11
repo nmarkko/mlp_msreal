@@ -21,7 +21,7 @@
 #include <linux/interrupt.h>  //interrupt handlers
 
 MODULE_AUTHOR ("FTN");
-MODULE_DESCRIPTION("Test Driver for VGA controller IP.");
+MODULE_DESCRIPTION("Driver for DMA for MLP IP.");
 MODULE_LICENSE("Dual BSD/GPL");
 MODULE_ALIAS("custom:image controller");
 
@@ -152,7 +152,7 @@ static int image_probe(struct platform_device *pdev)
 	dma_init(vp->base_addr);
 	dma_simple_write(tx_phy_buffer, MAX_PKT_LEN, vp->base_addr); // helper function, defined later
 
-	printk(KERN_NOTICE "image_probe: VGA platform driver registered\n");
+	printk(KERN_NOTICE "image_probe: image platform driver registered\n");
 	return 0;//ALL OK
 
 error3:
@@ -176,7 +176,7 @@ static int image_remove(struct platform_device *pdev)
 	iounmap(vp->base_addr);
 	release_mem_region(vp->mem_start, vp->mem_end - vp->mem_start + 1);
 	kfree(vp);
-	printk(KERN_INFO "image_probe: VGA DMA removed");
+	printk(KERN_INFO "image_probe: MLP DMA removed");
 	return 0;
 }
 
@@ -310,7 +310,6 @@ u32 dma_simple_write(dma_addr_t TxBufferPtr, u32 max_pkt_len, void __iomem *base
 	// With this, the DMA knows from where to start.
 
 	iowrite32(max_pkt_len, base_address + 40); // Write into MM2S_LENGTH register. This is the length of a tranaction.
-	// In our case this is the size of the image (640*480*4)
 	return 0;
 }
 
