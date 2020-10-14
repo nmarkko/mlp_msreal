@@ -155,18 +155,19 @@ ssize_t mlp_read(struct file *pfile, char __user *buffer, size_t length, loff_t 
 	//if(wait_event_interruptible(readQ, (ready_val == 1)))
 	//	return -ERESTARTSYS;
 	
-	while(!ready_val) {
+	/* while(!ready_val) {
 			ready_val = ioread32(lp->base_addr + 4);
 	}
 	ready_val = 0;
 	
 	cl_num = ioread32(lp->base_addr + 12); // cl_num reg at addr 12
-
+ */
 	buff[0]= '0';
 	buff[1]= 'x';
 	buff[2]= '3';
-	buff[3] = '0' + cl_num;
+	//buff[3] = '0' + cl_num;
 	//alternative
+	buff[3] = '0' + ready_val;
 	//char digits[10] = {'0','1','2','3','4','5','6','7','8','9'};
 	//buff[3]=digits[cl_num];
 
@@ -212,7 +213,7 @@ ssize_t mlp_write(struct file *pfile, const char __user *buffer, size_t length, 
 	if (!ret)
 	{
 		iowrite32((u32)start_val, lp->base_addr);
-		printk(KERN_INFO "Succesfully wrote value %#x",(u32)ready_val); 
+		printk(KERN_INFO "Succesfully wrote value %#x",(u32)start_val); 
 	}
 	else
 	{
